@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Node dependencies
+        run: |
+          cd api/node
+          npm install
+      - name: Run Node tests
+        run: |
+          cd api/node
+          npm test
+
+  python-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: |
+          cd api/python
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Start Python service
+        run: |
+          cd api/python
+          nohup python service.py &
+          sleep 3
+      - name: Run Python tests
+        run: |
+          cd api/python
+          pytest -q
+
+  go-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+      - name: Start Go service
+        run: |
+          cd api/go
+          nohup go run service.go &
+          sleep 3
+      - name: Run Go tests
+        run: |
+          cd api/go
+          go test ./...
+
+  lint-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker-compose
+        run: |
+          cd $GITHUB_WORKSPACE
+          docker compose config

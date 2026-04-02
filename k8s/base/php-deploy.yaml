@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-api
+  template:
+    metadata:
+      labels:
+        app: php-api
+    spec:
+      containers:
+      - name: php-api
+        image: php:8.2-cli
+        command: ['sh', '-c', 'cd /app && php -S 0.0.0.0:8082 index.php']
+        workingDir: /app
+        volumeMounts:
+        - name: app-code
+          mountPath: /app
+      volumes:
+      - name: app-code
+        hostPath:
+          path: /workspace/api/php
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-api
+spec:
+  selector:
+    app: php-api
+  ports:
+  - port: 8082
+    targetPort: 8082
+    protocol: TCP
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: php-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: polyglot.local
+    http:
+      paths:
+      - path: /api/php
+        pathType: Prefix
+        backend:
+          service:
+            name: php-api
+            port:
+              number: 8082

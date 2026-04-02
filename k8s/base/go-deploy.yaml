@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-api
+  template:
+    metadata:
+      labels:
+        app: go-api
+    spec:
+      containers:
+      - name: go-api
+        image: golang:1.22-alpine
+        command: ['sh', '-c', 'cd /app && go run service.go']
+        workingDir: /app
+        volumeMounts:
+        - name: app-code
+          mountPath: /app
+      volumes:
+      - name: app-code
+        hostPath:
+          path: /workspace/api/go
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-api
+spec:
+  selector:
+    app: go-api
+  ports:
+  - port: 8081
+    targetPort: 8081
+    protocol: TCP
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: polyglot.local
+    http:
+      paths:
+      - path: /api/go
+        pathType: Prefix
+        backend:
+          service:
+            name: go-api
+            port:
+              number: 8081

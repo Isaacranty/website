@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  labels:
+    app: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      containers:
+      - name: traefik
+        image: traefik:v3.0
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 8080
+        args:
+          - --entrypoints.http.address=:80
+          - --entrypoints.https.address=:443
+          - --api.dashboard=true
+          - --providers.kubernetescrd
+          - --providers.kubernetesingress
+        volumeMounts:
+          - name: traefik-config
+            mountPath: /data
+      volumes:
+      - name: traefik-config
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+spec:
+  type: NodePort
+  selector:
+    app: traefik
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  - port: 443
+    targetPort: 443
+    name: https
+  - port: 8080
+    targetPort: 8080
+    name: dashboard

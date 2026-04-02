@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - 8085:80
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - node-api
+      - python-api
+      - go-api
+      - php-api
+
+  node-api:
+    build: ./api/node
+    environment:
+      - NODE_ENV=production
+
+  python-api:
+    build: ./api/python
+    environment:
+      - FLASK_ENV=production
+
+  go-api:
+    build: ./api/go
+
+  php-api:
+    build:
+      context: ./api/php
+      dockerfile: Dockerfile.prod
+    expose:
+      - '9000'
+
+networks:
+  default:
+    external: false

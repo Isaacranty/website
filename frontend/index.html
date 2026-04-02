@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isaac Blog - Minimal Blog</title>
+  <meta name="description" content="A polished single-page blog for notes, stories, and thoughtful updates." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="top-row">
+        <div class="brand">
+          <a href="#home">Isaac Blog</a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle menu" aria-controls="site-nav" aria-expanded="false">☰</button>
+      </div>
+      <p class="subtitle">Minimal notes, coding snippets, and thoughtful reflections.</p>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#posts-area">Posts</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#feedback">Feedback</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="content-section">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <p class="subtitle">Welcome to Isaac Blog</p>
+            <h1>Simple writing, useful ideas, and clean reading.</h1>
+            <p>
+              Explore fresh posts, search through ideas, and publish new content with a lightweight
+              blogging experience built entirely with plain HTML, CSS, and JavaScript.
+            </p>
+            <p>
+              <a href="#posts-area">Browse posts</a> ·
+              <a href="#about">Learn more</a> ·
+              <a href="#feedback">Share feedback</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container page-grid">
+      <section class="posts content-section" id="posts-area" aria-labelledby="posts-heading">
+        <div class="widget">
+          <h2 id="posts-heading">Latest Posts</h2>
+          <p>Read recent entries, search by keyword, or open a post for the full view.</p>
+        </div>
+
+        <div class="widget">
+          <label for="search">Search posts</label>
+          <input type="search" id="search" placeholder="Search title or content" aria-label="Search posts" />
+        </div>
+
+        <section id="posts" aria-live="polite">
+          <article class="post">
+            <h3 class="post-title">Welcome to Isaac Blog</h3>
+            <p class="post-meta">General · Just now</p>
+            <p class="post-excerpt">
+              Your published posts will appear here. Use the form in the sidebar to create a new one.
+            </p>
+          </article>
+        </section>
+      </section>
+
+      <aside class="sidebar" aria-label="Sidebar">
+        <div class="widget">
+          <h3>About this blog</h3>
+          <p>
+            A simple static blogging template inspired by classic personal sites, updated with a polished
+            single-page layout and modern usability.
+          </p>
+        </div>
+
+        <div class="widget">
+          <h3>Write a new post</h3>
+          <form id="post-form">
+            <label for="new-title">Title</label>
+            <input type="text" id="new-title" placeholder="Title" required />
+
+            <label for="new-category">Category</label>
+            <select id="new-category" required>
+              <option value="General">General</option>
+              <option value="Coding">Coding</option>
+              <option value="Notes">Notes</option>
+              <option value="Ideas">Ideas</option>
+              <option value="Custom">Custom</option>
+            </select>
+
+            <label for="new-category-custom">Custom category</label>
+            <input type="text" id="new-category-custom" placeholder="Custom category" />
+
+            <label for="new-content">Content</label>
+            <textarea id="new-content" placeholder="Write your post content" rows="6" required></textarea>
+
+            <button type="submit">Publish</button>
+          </form>
+        </div>
+
+        <div class="widget">
+          <h3>Recent posts</h3>
+          <div id="recent-posts">
+            <p>No recent posts yet.</p>
+          </div>
+        </div>
+
+        <div class="widget">
+          <h3>Contact links</h3>
+          <ul>
+            <li>Email: <a href="mailto:hello@isaacblog.example">hello@isaacblog.example</a></li>
+            <li>Twitter: <a href="https://twitter.com/isaacblog" target="_blank" rel="noopener">@isaacblog</a></li>
+            <li>GitHub: <a href="https://github.com/isaacblog" target="_blank" rel="noopener">github.com/isaacblog</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <section id="about" class="content-section">
+      <div class="container">
+        <div class="widget">
+          <h2>About Isaac Blog</h2>
+          <p>
+            Isaac Blog is a personal space for tech notes, ideas, and quick reflections. It focuses on
+            readability, simplicity, and a smooth experience across desktop and mobile screens.
+          </p>
+          <p>
+            The goal is to keep publishing easy while making every post feel clear and pleasant to read.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="content-section">
+      <div class="container">
+        <div class="widget">
+          <h2>Contact</h2>
+          <ul>
+            <li>Email: <a href="mailto:hello@isaacblog.example">hello@isaacblog.example</a></li>
+            <li>Twitter: <a href="https://twitter.com/isaacblog" target="_blank" rel="noopener">@isaacblog</a></li>
+            <li>LinkedIn: <a href="https://linkedin.com/in/isaacblog" target="_blank" rel="noopener">linkedin.com/in/isaacblog</a></li>
+            <li>GitHub: <a href="https://github.com/isaacblog" target="_blank" rel="noopener">github.com/isaacblog</a></li>
+            <li>Telegram: <a href="https://t.me/isaacblog" target="_blank" rel="noopener">@isaacblog</a></li>
+            <li>RSS: <a href="/rss.xml">Subscribe</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="feedback" class="content-section">
+      <div class="container">
+        <div class="widget">
+          <h2>Feedback</h2>
+          <p>
+            Use the feedback tab to open the panel and share your thoughts about the blog, the writing,
+            or the reading experience.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Isaac Blog • Built with HTML/CSS/JS</p>
+    </div>
+  </footer>
+
+  <button id="feedback-tab" class="feedback-tab" type="button" aria-controls="feedback-panel" aria-expanded="false">Feedback</button>
+
+  <aside id="feedback-panel" class="feedback-panel" aria-labelledby="feedback-title" aria-hidden="true">
+    <button id="feedback-close" class="feedback-close" type="button" aria-label="Close feedback">✕</button>
+    <h3 id="feedback-title">Send Feedback</h3>
+    <form id="feedback-form">
+      <label for="feedback-name">Name</label>
+      <input type="text" id="feedback-name" placeholder="Your name" required />
+
+      <label for="feedback-email">Email</label>
+      <input type="email" id="feedback-email" placeholder="you@example.com" required />
+
+      <label for="feedback-rating">Rating</label>
+      <div class="star-rating" id="feedback-rating" role="group" aria-label="Rating">
+        <input type="radio" name="rating" id="rating-5" value="5" required /><label for="rating-5">★</label>
+        <input type="radio" name="rating" id="rating-4" value="4" /><label for="rating-4">★</label>
+        <input type="radio" name="rating" id="rating-3" value="3" /><label for="rating-3">★</label>
+        <input type="radio" name="rating" id="rating-2" value="2" /><label for="rating-2">★</label>
+        <input type="radio" name="rating" id="rating-1" value="1" /><label for="rating-1">★</label>
+      </div>
+
+      <label for="feedback-message">Message</label>
+      <textarea id="feedback-message" rows="5" placeholder="Your message" required></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+    <div id="feedback-success" class="feedback-success" hidden>Thanks! Your feedback has been received.</div>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>

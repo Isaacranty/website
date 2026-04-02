@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-api
+  template:
+    metadata:
+      labels:
+        app: node-api
+    spec:
+      containers:
+      - name: node-api
+        image: node:20-alpine
+        command: ['sh', '-c', 'cd /app && npm install && node server.js']
+        workingDir: /app
+        volumeMounts:
+        - name: app-code
+          mountPath: /app
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: polyglot-secret
+              key: jwt
+      volumes:
+      - name: app-code
+        hostPath:
+          path: /workspace/api/node
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-api
+spec:
+  selector:
+    app: node-api
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: polyglot.local
+    http:
+      paths:
+      - path: /api/node
+        pathType: Prefix
+        backend:
+          service:
+            name: node-api
+            port:
+              number: 3000
